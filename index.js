@@ -3,46 +3,43 @@ const app = express();
 
 app.use(express.json());
 
-const users = [
-    { id: 1, pass: 'Password 1', email: 'Email 1' },
-    { id: 2, pass: 'Password 2', email: 'Email 2' },
-    { id: 3, pass: 'Password 3', email: 'Email 3' },
-    { id: 4, pass: 'Password 4', email: 'Email 4' },
-    { id: 5, pass: 'Password 5', email: 'Email 5' }
+const tasks = [
+    { id: 1, description: "todo 1", status: "In Progress", dueDate: "05 May 2021" },
+    { id: 2, description: "todo 2", status: "In Progress", dueDate: "05 May 2021" },
+    { id: 3, description: "todo 3", status: "In Progress", dueDate: "05 May 2021" },
+    { id: 4, description: "todo 4", status: "In Progress", dueDate: "05 May 2021" },
+    { id: 5, description: "todo 5", status: "In Progress", dueDate: "05 May 2021" },
+    { id: 6, description: "todo 6", status: "In Progress", dueDate: "05 May 2021" },
+    { id: 7, description: "todo 7", status: "In Progress", dueDate: "05 May 2021" },
 ]
 
 app.get('/', (req, res) => {
     res.send('Hello World');
 });
 
-app.get('/users', (req, res) => {
-    res.send(users);
+app.get('/tasks', (req, res) => {
+    res.send(tasks);
 });
 
-app.get('/user/:id', (req, res) => {
-    const user = users.find(c => c.id === parseInt(req.params.id))
-    if (!user) res.status(404).send('The user was not found.');
+app.get('/tasks/:id', (req, res) => {
+    const task = tasks.find(c => c.id === parseInt(req.params.id))
+    if (!tasks) res.status(404).send('The task was not found.');
     res.send(user);
 });
 
-app.get('/users', (req, res) => {
-    //req.params.id;
-    res.send(req.params);
-});
-
-
-app.post('/user', (req, res) => {
-    if (!req.body.pass || !req.body.email) {
-        res.status(400).send("Password and email not sent.");
+app.post('/task', (req, res) => {
+    if (!req.body.description || !req.body.status || !req.body.dueDate) {
+        res.status(400).send("Description, status, or due date was not sent.");
     }
-    console.log(req.body.pass);
-    const user = {
-        id: users.length + 1,
-        pass: req.body.pass,
-        email: req.body.email
+    console.log(req.body.description);
+    const task = {
+        id: task.length + 1,
+        description: req.body.description,
+        status: req.body.status,
+        dueDate: req.body.dueDate
     };
-    users.push(user);
-    res.send(user);
+    tasks.push(task);
+    res.send(task);
 });
 
 //app.post();
