@@ -14,22 +14,25 @@ const tasks = [
 ]
 
 app.get('/', (req, res) => {
-    res.send('Hello World');
+    res.send('Welcome to the ToDo App Api');
 });
 
+//Read
 app.get('/tasks', (req, res) => {
     res.send(tasks);
 });
 
 app.get('/tasks/:id', (req, res) => {
     const task = tasks.find(c => c.id === parseInt(req.params.id))
-    if (!tasks) res.status(404).send('The task was not found.');
+    if (!tasks) return res.status(404).send('The task was not found.');
     res.send(user);
 });
 
+
+//Write
 app.post('/task', (req, res) => {
     if (!req.body.description || !req.body.status || !req.body.dueDate) {
-        res.status(400).send("Description, status, or due date was not sent.");
+        return res.status(400).send("Description, status, or due date was not sent.");
     }
     console.log(req.body.description);
     const task = {
@@ -42,8 +45,27 @@ app.post('/task', (req, res) => {
     res.send(task);
 });
 
-//app.post();
-//app.put();
-//app.delete()
+
+//Update
+app.put('/tasks/:id', (req, res) => {
+    const task = tasks.find(c => c.id === parseInt(req.params.id))
+    if (!tasks) return res.status(404).send('The task was not found.');
+    task.description = req.body.description;
+    task.status = req.body.status;
+    task.dueDate = req.body.dueDate;
+    res.send(task);
+});
+
+
+
+//Delete
+app.delete('/tasks/:id', (req, res) => {
+    const task = tasks.find(c => c.id === parseInt(req.params.id))
+    if (!tasks) return res.status(404).send('The task was not found.');
+    task.delete;
+    
+});
+
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`Listening on port ${port}...`));
