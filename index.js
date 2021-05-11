@@ -4,13 +4,13 @@ const app = express();
 app.use(express.json());
 
 const tasks = [
-    { id: 1, description: "todo 1", status: "In Progress", dueDate: "05 May 2021" },
-    { id: 2, description: "todo 2", status: "In Progress", dueDate: "05 May 2021" },
-    { id: 3, description: "todo 3", status: "In Progress", dueDate: "05 May 2021" },
-    { id: 4, description: "todo 4", status: "In Progress", dueDate: "05 May 2021" },
-    { id: 5, description: "todo 5", status: "In Progress", dueDate: "05 May 2021" },
-    { id: 6, description: "todo 6", status: "In Progress", dueDate: "05 May 2021" },
-    { id: 7, description: "todo 7", status: "In Progress", dueDate: "05 May 2021" },
+    { id: 1, subtask: 0, description: "todo 1", status: "In Progress", dueDate: "05 May 2021" },
+    { id: 2, subtask: 0, description: "todo 2", status: "In Progress", dueDate: "05 May 2021" },
+    { id: 3, subtask: 0, description: "todo 3", status: "In Progress", dueDate: "05 May 2021" },
+    { id: 4, subtask: 0, description: "todo 4", status: "In Progress", dueDate: "05 May 2021" },
+    { id: 5, subtask: 0, description: "todo 5", status: "In Progress", dueDate: "05 May 2021" },
+    { id: 6, subtask: 0, description: "todo 6", status: "In Progress", dueDate: "05 May 2021" },
+    { id: 7, subtask: 0, description: "todo 7", status: "In Progress", dueDate: "05 May 2021" },
 ]
 
 app.get('/', (req, res) => {
@@ -24,8 +24,8 @@ app.get('/tasks', (req, res) => {
 
 app.get('/tasks/:id', (req, res) => {
     const task = tasks.find(c => c.id === parseInt(req.params.id))
-    if (!tasks) return res.status(404).send('The task was not found.');
-    res.send(user);
+    if (!task) return res.status(404).send('The task was not found.');
+    res.send(task);
 });
 
 
@@ -37,6 +37,7 @@ app.post('/task', (req, res) => {
     console.log(req.body.description);
     const task = {
         id: task.length + 1,
+        subtask: req.body.subtask,
         description: req.body.description,
         status: req.body.status,
         dueDate: req.body.dueDate
@@ -50,6 +51,7 @@ app.post('/task', (req, res) => {
 app.put('/tasks/:id', (req, res) => {
     const task = tasks.find(c => c.id === parseInt(req.params.id))
     if (!tasks) return res.status(404).send('The task was not found.');
+    subtask = req.body.subtask;
     task.description = req.body.description;
     task.status = req.body.status;
     task.dueDate = req.body.dueDate;
